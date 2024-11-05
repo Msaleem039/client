@@ -1,0 +1,27 @@
+export const createInstructor = async (req, res) => {
+  uploadFiles(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ message: err.message });
+    }
+    try {
+      // Get file paths if files were uploaded
+      const profileImage = req.files['photo']
+        ? path.join('uploads', req.files['photo'][0].filename) // Adjust to your folder structure
+        : null;
+
+      // Prepare instructor data
+      const instructorData = {
+        ...req.body,
+        photo: profileImage, // Add the profile image path
+      };
+
+      // Create a new instructor instance
+      const instructor = new Instructor(instructorData);
+      await instructor.save();
+
+      res.status(201).json({ message: 'Instructor created successfully', instructor });
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error: ' + error.message });
+    }
+  });
+};
