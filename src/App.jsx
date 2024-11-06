@@ -35,6 +35,7 @@ import EditBlogcat from "./components/Blog/EditBlogcat";
 import EditSpecialcat from "./components/SP-C Categories/EditSpecialcat";
 import Editspecialbp from "./components/SP-C Categories/Editspecialbp";
 import EditEFlyer from "./components/Eflyer/EditEFlyer";
+import EditCourseCategory from "./components/courses/EditCourseCategory";
 
 
 function App() {
@@ -60,9 +61,10 @@ function App() {
 				<Route path='/addcourse' element={<AddCourse/>} />
 				<Route path='/editcourse/:courseId' element={<EditCourse/>} />
 				<Route path='/course-categories' element={<CourseCateg />}>
+
 					<Route path='addcategory' element={<AddCategory/>} />
 				</Route>
-
+<Route path="/editcoursecat/:id" element={<EditCourseCategory/>} />
 				<Route path='/blog' element={<Blog/>}></Route>
 				<Route path='/addblog' element={<AddBlog/>}/>
 				<Route path='/editblog/:id' element={<EditBlog/>} />

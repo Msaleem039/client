@@ -3,18 +3,17 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/common/Header";
 
 const AddFlyers = () => {
-  const [profilePic, setProfilePic] = useState(null);
+  const [flyerFile, setProfilePic] = useState(null);
   const [categories, setCategories] = useState([]);
   const [courses, setCourses] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
-
   useEffect(() => {
     const fetchCategories = async () => {
       console.log(
-        profilePic,
+        flyerFile,
         categories,
         courses,
         selectedCategory,
@@ -56,7 +55,7 @@ const AddFlyers = () => {
     e.preventDefault();
     
     const formData = new FormData();
-    formData.append("profilePic", profilePic);
+    formData.append("flyerFile", flyerFile);
     formData.append("category", selectedCategory);
     formData.append("course", selectedCourse);
     formData.append("status", status);
@@ -72,7 +71,7 @@ const AddFlyers = () => {
         method: "POST",
         body: formData,
       });
-  
+       console.log(response)
       if (!response.ok) {
         const errorText = await response.text(); // Get the error response body
         console.log('Error: ' + errorText)
@@ -147,7 +146,6 @@ const AddFlyers = () => {
             </label>
             <input
     type="file"
-    id="profilePic"
     onChange={(e) => setProfilePic(e.target.files[0])} // Set the first selected file
     className="w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
     accept="image/*"
@@ -168,8 +166,8 @@ const AddFlyers = () => {
               <option value="" disabled>
                 Select status
               </option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
             </select>
           </div>
 

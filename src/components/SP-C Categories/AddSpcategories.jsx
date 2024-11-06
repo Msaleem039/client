@@ -11,21 +11,18 @@ const AddSpcategories = () => {
     try {
       const requestData = {
         ...data,
-        // Add any additional transformations if necessary
+        inSitemap: data.inSitemap === "Yes",  // Convert "Yes" to true and "No" to false
+        indexPage: data.indexPage === "Yes"    // Convert "Yes" to true and "No" to false
       };
-
-      let res = await axios.post('https://88b8-182-181-220-26.ngrok-free.app/api/courses', requestData);
-      if (res.status === 200) {
-        console.log('Course added successfully', res.data);
-        navigate("/courses");
-      } else {
-        console.error('Error adding course', res.data);
-      }
+  
+      let res = await axios.post('http://localhost:8080/api/citycategory', requestData);
+      console.log('Special course category added:', res.data);
+      navigate("/sp-c-categories");
     } catch (error) {
       console.error('Error:', error);
     }
   };
-
+  
   return (
     <div className="w-full overflow-y-auto">
       <Header />
@@ -115,8 +112,8 @@ const AddSpcategories = () => {
               className='w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
             >
               <option value="">Select Yes/No</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
             </select>
             {errors.indexPage && <span className="text-red-500">Index Page option is required</span>}
           </div>

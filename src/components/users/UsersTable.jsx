@@ -110,6 +110,7 @@ const UsersTable = () => {
 
               <tbody className="divide-y divide-gray-700">
                 {filteredUsers.map((user, index) => (
+              
                   <motion.tr
                     key={user._id}
                     initial={{ opacity: 0 }}
@@ -120,9 +121,21 @@ const UsersTable = () => {
                       <div className="text-sm text-gray-300">{index + 1}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-blue-500 flex items-center justify-center text-white font-semibold">
-                       <img    src={`http://localhost:8080/${user.photo.replace(/\\/g, '/')}`} alt="image"/>
-                      </div>
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-blue-500 flex items-center justify-center text-white font-semibold">
+  <img
+    src={
+      user.photo
+      
+        ? `http://localhost:8080/${user.photo.replace(/\\/g, '/')}`
+        : 'path/to/default-image.jpg' // Use a fallback image here
+    }
+    
+    alt="User profile"
+    className="h-full w-full object-cover rounded-full"
+  />
+     
+</div>
+
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-100">

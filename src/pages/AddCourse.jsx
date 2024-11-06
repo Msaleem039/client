@@ -220,7 +220,6 @@ const AddCourse = () => {
               </span>
             )}
           </div>
-
           {/* Course Description (CKEditor) */}
           <div className="mb-4">
             <label className="block text-gray-400 mb-2">

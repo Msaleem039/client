@@ -52,31 +52,32 @@ const AddSpecialbp = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Prepare data for submission
     const formSubmitData = new FormData();
     Object.keys(formData).forEach((key) => {
       formSubmitData.append(key, formData[key]);
     });
-    
-
+  
     try {
       const res = await axios.post("http://localhost:8080/api/specialcatblog", formSubmitData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      if (res.status === 200) {
+  
+      if (res.status === 200 || res.status === 201) {
         console.log("Blog post added successfully", res.data);
-        navigate("/courses");
+        navigate("/sp-c-blog-post");  // Navigate after successful creation
       } else {
         console.error("Error adding blog post", res.data);
       }
+  
     } catch (error) {
       console.error("Error:", error);
     }
   };
+  
 
   return (
     <div className="w-full overflow-y-auto">

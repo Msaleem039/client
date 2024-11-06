@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const CourseCategories = () => {
@@ -11,6 +11,7 @@ const CourseCategories = () => {
   const [error, setError] = useState(null);
   const [editCategory, setEditCategory] = useState(null); // To handle the category being edited
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch categories from the API with credentials
@@ -56,27 +57,27 @@ const CourseCategories = () => {
       });
   };
 
-  const handleEdit = (category) => {
-    setEditCategory(category); // Set the category to be edited
+  const handleEdit = (id) => {
+  navigate(`/editcoursecat/${id}`) // Set the category to be edited
   };
 
-  const handleUpdate = (updatedData) => {
-    const { _id } = updatedData;
-    axios
-      .put(`http://localhost:8080/api/categories/${_id}`, updatedData, { withCredentials: true }) // Add withCredentials
-      .then(() => {
-        // Update the local state with the updated category
-        const updatedCategories = filteredCategories.map((category) =>
-          category._id === _id ? { ...category, ...updatedData } : category
-        );
-        setFilteredCategories(updatedCategories);
-        setEditCategory(null); // Clear the edit form
-      })
-      .catch((error) => {
-        console.error("Error updating category:", error.response ? error.response.data : error.message);
-        setError("Failed to update category");
-      });
-  };
+  // const handleUpdate = (updatedData) => {
+  //   const { _id } = updatedData;
+  //   axios
+  //     .put(`http://localhost:8080/api/categories/${_id}`, updatedData, { withCredentials: true }) // Add withCredentials
+  //     .then(() => {
+  //       // Update the local state with the updated category
+  //       const updatedCategories = filteredCategories.map((category) =>
+  //         category._id === _id ? { ...category, ...updatedData } : category
+  //       );
+  //       setFilteredCategories(updatedCategories);
+  //       setEditCategory(null); // Clear the edit form
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error updating category:", error.response ? error.response.data : error.message);
+  //       setError("Failed to update category");
+  //     });
+  // };
 
   const isAddCategoryPage = location.pathname.includes("addcategory");
 
@@ -159,7 +160,7 @@ const CourseCategories = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                         <button
                           className="text-indigo-400 hover:text-indigo-300 mr-2"
-                          onClick={() => handleEdit(category)} // Open the edit form
+                          onClick={() => handleEdit(category._id)} // Open the edit form
                         >
                           Edit
                         </button>

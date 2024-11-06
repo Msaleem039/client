@@ -8,6 +8,7 @@ const SPCBlogPost = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [blogPosts, setBlogPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);  
+console.log(blogPosts)
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -128,12 +129,16 @@ const SPCBlogPost = () => {
                       <div className="text-sm text-gray-100">{post.postTitle}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <img
-                        src={post.postThumbnailImage}
-                        alt={post.postTitle}
-                        className="h-10 w-10 rounded-full"
-                      />
-                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+  <img
+    src={`http://localhost:8080/${post.postThumbnailImage}`} // Remove the extra path part
+    alt={post.postTitle}
+    className="h-10 w-10 rounded-full"
+  />
+</td>
+
+</td>
+
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-300">{post.postCategory.cityCategoryName}</div>
                     </td>
