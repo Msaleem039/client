@@ -10,7 +10,6 @@ const Eflayer = () => {
 	const [filteredEflyers, setFilteredEflyers] = useState([]);
 	const location = useLocation();
 	const navigate = useNavigate();
-
 	useEffect(() => {
 		// Fetch data from the API when the component mounts
 		const fetchEflyers = async () => {
@@ -50,9 +49,7 @@ const Eflayer = () => {
 			console.error("Error deleting eflyer:", error);
 		}
 	};
-
 	const isAddInstructorPage = location.pathname.includes("adduser");
-
 	return (
 		<motion.div
 			className='bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl w-full p-6 border border-gray-700'
@@ -75,7 +72,6 @@ const Eflayer = () => {
 								/>
 								<Search className='absolute left-3 top-2.5 text-gray-400' size={18} />
 							</div>
-
 							<Link to='/addeflayer'>
 								<button className='bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300'>
 									Add E-Flyer

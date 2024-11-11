@@ -4,31 +4,30 @@ import { Search } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Tablefaqs = () => {
+const Tablefaqquestion = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [faqCategories, setFaqCategories] = useState([]);
+  const [faqQuestions, setFaqQuestions] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
-
+  console.log(faqQuestions)
   useEffect(() => {
-    // Fetch FAQ categories from the API
+    // Fetch FAQ questions from the API
     axios
-      .get("http://localhost:8080/api/faqcat")
-      .then((response) => setFaqCategories(response.data))
-      .catch((error) => console.error("Error fetching FAQ categories:", error));
+      .get("http://localhost:8080/api/faquestion")
+      .then((response) => setFaqQuestions(response.data))
+      .catch((error) => console.error("Error fetching FAQ questions:", error));
   }, []);
 
   const handleSearch = (e) => {
-    const term = e.target.value.toLowerCase();
-    setSearchTerm(term);
+    setSearchTerm(e.target.value.toLowerCase());
   };
 
-  const handleDelete = async (categoryId) => {
+  const handleDelete = async (questionId) => {
     try {
-      await axios.delete(`http://localhost:8080/api/faqcat/${categoryId}`);
-      setFaqCategories(faqCategories.filter((category) => category._id !== categoryId));
+      await axios.delete(`http://localhost:8080/api/faquestion/${questionId}`);
+      setFaqQuestions(faqQuestions.filter((question) => question._id !== questionId));
     } catch (error) {
-      console.error("Error deleting FAQ category:", error);
+      console.error("Error deleting FAQ question:", error);
     }
   };
 
@@ -45,7 +44,7 @@ const Tablefaqs = () => {
         <>
           <div className="text-center items-center mb-6">
             <h2 className="text-2xl font-semibold text-gray-100 cursor-pointer mb-5">
-              FAQ Categories
+              FAQ Questions
             </h2>
             <hr className="w-full h-1 bg-slate-500 rounded-sm mb-5" />
 
@@ -53,7 +52,7 @@ const Tablefaqs = () => {
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Search categories..."
+                  placeholder="Search questions..."
                   className="bg-gray-700 text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   value={searchTerm}
                   onChange={handleSearch}
@@ -63,7 +62,7 @@ const Tablefaqs = () => {
 
               <Link to="/addfaq">
                 <button className="bg-blue-600 hidden sm:block hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300">
-                  Add FAQ
+                  Add FAQ Question
                 </button>
               </Link>
             </div>
@@ -77,7 +76,10 @@ const Tablefaqs = () => {
                     Sr No
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                    Category
+                    FAQ Question
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    Status
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                     Actions
@@ -86,25 +88,30 @@ const Tablefaqs = () => {
               </thead>
 
               <tbody className="divide-y divide-gray-700">
-                {faqCategories
-                  .filter((category) =>
-                    category.categoryName.toLowerCase().includes(searchTerm)
+                {faqQuestions
+                  .filter((question) =>
+                    question.question.toLowerCase().includes(searchTerm)
                   )
-                  .map((category, index) => (
+                  .map((question, index) => (
                     <motion.tr
-                      key={category._id}
+                      key={question._id}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.3 }}
                     >
                       <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">{category.categoryName}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{question.question}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {question.status ? "Active" : "Inactive"}
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                        <Link to={`/editfaq/${category._id}`}>
-                          <button className="text-indigo-400 hover:text-indigo-300 mr-2">Edit</button>
+                        <Link to={`/editfaquestion/${question._id}`}>
+                          <button className="text-indigo-400 hover:text-indigo-300 mr-2">
+                            Edit
+                          </button>
                         </Link>
                         <button
-                          onClick={() => handleDelete(category._id)}
+                          onClick={() => handleDelete(question._id)}
                           className="text-red-400 hover:text-red-300"
                         >
                           Delete
@@ -121,4 +128,4 @@ const Tablefaqs = () => {
   );
 };
 
-export default Tablefaqs;
+export default Tablefaqquestion;

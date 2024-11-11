@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Tablefaqs = () => {
+const TableGallery = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [faqCategories, setFaqCategories] = useState([]);
   const location = useLocation();
@@ -121,4 +121,4 @@ const Tablefaqs = () => {
   );
 };
 
-export default Tablefaqs;
+export default TableGallery;

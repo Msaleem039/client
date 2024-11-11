@@ -7,6 +7,10 @@ import { GiTeacher } from "react-icons/gi";
 import { MdFolderSpecial } from "react-icons/md";
 import { TbWriting } from "react-icons/tb";
 import { FaQq } from "react-icons/fa6";
+import { QueueListIcon } from "@heroicons/react/24/outline";
+import { FcGallery, FcQuestions } from "react-icons/fc";
+import { BsQuestion } from "react-icons/bs";
+import { GrGallery } from "react-icons/gr";
 
 const SIDEBAR_ITEMS = [
 	{
@@ -61,6 +65,17 @@ const SIDEBAR_ITEMS = [
 		dropdown: [
             { name: "Faqs", icon: BiCategory, color: "#8B5CF6", href: "/faqs" },
    
+		]
+	},
+	{ name: "Faquestion", icon:BsQuestion, color: "#F59E0B", href: "#" ,
+		dropdown: [
+            { name: "Faquestion", icon:FcQuestions, color: "#8B5CF6", href: "/faquestion" },
+   
+		]
+	},
+	{ name: "Gallery", icon:GrGallery, color: "#F59E0B", href: "#" ,
+		dropdown: [
+            { name: "Faquestion", icon:FcGallery, color: "#8B5CF6", href: "/gallery" },
 		]
 	},
 	{ name: "Analytics", icon: TrendingUp, color: "#3B82F6", href: "/analytics" },

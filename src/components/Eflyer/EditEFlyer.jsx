@@ -45,7 +45,7 @@ const EditEFlyer = () => {
         status: eFlyer.status === "Active" ? true : false,
       };
       
-      const response = await axios.put(`http://localhost:8080/api/eflyers/${id}`, updatedEFlyer, { withCredentials: true });
+      const response = await axios.put(`http://localhost:8080/api/eflyer/${id}`, updatedEFlyer, { withCredentials: true });
       console.log("Updated eFlyer Response:", response);
       alert("eFlyer updated successfully!");
       navigate("/eflyers"); // Redirect to eFlyer list after successful update
@@ -67,7 +67,7 @@ const EditEFlyer = () => {
   return (
     <div className="w-full">
       <Header />
-      <div className="flex justify-center items-center min-h-screen bg-gray-900 overflow-auto">
+      <div className="flex justify-center items-center my-5 bg-gray-900 overflow-auto">
         <div className="bg-gray-800 bg-opacity-80 backdrop-blur-md shadow-lg rounded-xl p-8 border border-gray-700 w-full max-w-lg">
           <h2 className="text-2xl font-semibold text-gray-100 mb-6">Edit eFlyer</h2>
           <form onSubmit={handleSubmit} className="space-y-4 overflow-y-auto max-h-[500px]"> {/* Added scrollable area */}

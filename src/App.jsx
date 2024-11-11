@@ -36,6 +36,10 @@ import EditSpecialcat from "./components/SP-C Categories/EditSpecialcat";
 import Editspecialbp from "./components/SP-C Categories/Editspecialbp";
 import EditEFlyer from "./components/Eflyer/EditEFlyer";
 import EditCourseCategory from "./components/courses/EditCourseCategory";
+import AddFaq from "./components/Faqs/AddFaq";
+import EditFaq from "./components/Faqs/Editfaq";
+import MainFaqsquestion from "./components/faqQuestions/MainFaqsquestion";
+import Editfaquestion from "./components/faqQuestions/Editfaquestion";
 
 
 function App() {
@@ -57,6 +61,8 @@ function App() {
 				</Route>
 				<Route path='/users/:userId' element={<EditInstructor/>} />
 				<Route path='/faqs' element={<MainFaqs/>} />
+				<Route path='/editfaq/:id' element={<EditFaq/>} />
+				<Route path='/addfaq' element={<AddFaq/>} />
 				<Route path='/courses' element={<Courses />}></Route>
 				<Route path='/addcourse' element={<AddCourse/>} />
 				<Route path='/editcourse/:courseId' element={<EditCourse/>} />
@@ -86,8 +92,11 @@ function App() {
 				<Route path='/specialbp' element={<AddSpecialbp/>} />
 			     <Route path='/sp-c-blog-post' element={<Mainspc/>} />
 				 <Route path='/sp-c-blog-post/:id' element={<Editspecialbp/>} />
+				 <Route path='/faquestion' element={<MainFaqsquestion/>} />
+				 <Route path='/editfaquestion/:id' element={<Editfaquestion/>} />
 				<Route path='/analytics' element={<AnalyticsPage />} />
 				<Route path='/settings' element={<SettingsPage />} />
+
 			</Routes>
 		</div>
 	);
