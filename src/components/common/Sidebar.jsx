@@ -4,13 +4,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { BiCategory } from "react-icons/bi";
 import { GiTeacher } from "react-icons/gi";
-import { MdFolderSpecial } from "react-icons/md";
+import { MdEvent, MdEventNote, MdEventRepeat, MdFolderSpecial, MdQueryBuilder, MdQueryStats } from "react-icons/md";
 import { TbWriting } from "react-icons/tb";
 import { FaQq } from "react-icons/fa6";
 import { QueueListIcon } from "@heroicons/react/24/outline";
 import { FcGallery, FcQuestions } from "react-icons/fc";
 import { BsQuestion } from "react-icons/bs";
 import { GrGallery } from "react-icons/gr";
+import EventCategory from "../eventCategory/EventCategory";
+import ModelEvent from "../CourseModel/ModelCourse";
+import { SiMetrodelaciudaddemexico } from "react-icons/si";
 
 const SIDEBAR_ITEMS = [
 	{
@@ -27,6 +30,7 @@ const SIDEBAR_ITEMS = [
 		dropdown: [
 			{ name: "Category", icon: BiCategory, color: "#8B5CF6", href: "/course-categories" },
 			{ name: "Courses", icon: BookAIcon, color: "#EC4899", href: "/courses" },
+			{ name: "CourseModel", icon:SiMetrodelaciudaddemexico, color: "#EC4899", href: "/coursemodel" },
 			
 		]
 	},
@@ -75,7 +79,18 @@ const SIDEBAR_ITEMS = [
 	},
 	{ name: "Gallery", icon:GrGallery, color: "#F59E0B", href: "#" ,
 		dropdown: [
-            { name: "Faquestion", icon:FcGallery, color: "#8B5CF6", href: "/gallery" },
+            { name: "Gallery", icon:FcGallery, color: "#8B5CF6", href: "/gallery" },
+		]
+	},
+	{ name: "FreeTrial", icon:MdQueryStats, color: "#F59E0B", href: "#" ,
+		dropdown: [
+            { name: "FreeTrialQ", icon:MdQueryBuilder, color: "#8B5CF6", href: "/freetrail" },
+		]
+	},
+	{ name: "Event", icon:MdEventNote, color: "#F59E0B", href: "#" ,
+		dropdown: [
+            { name: "EventCat", icon:MdEvent, color: "#8B5CF6", href: "/eventcat" },
+			{ name: "EventPost", icon:MdEventRepeat, color: "#8B5CF6", href: "/event-post" },
 		]
 	},
 	{ name: "Analytics", icon: TrendingUp, color: "#3B82F6", href: "/analytics" },

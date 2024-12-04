@@ -22,10 +22,10 @@ const Tablefaqquestion = () => {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
-  const handleDelete = async (questionId) => {
+  const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/faquestion/${questionId}`);
-      setFaqQuestions(faqQuestions.filter((question) => question._id !== questionId));
+      await axios.delete(`http://localhost:8080/api/faquestion/${id}`);
+      setFaqQuestions(faqQuestions.filter((question) => question._id !== id));
     } catch (error) {
       console.error("Error deleting FAQ question:", error);
     }
@@ -60,7 +60,7 @@ const Tablefaqquestion = () => {
                 <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
               </div>
 
-              <Link to="/addfaq">
+              <Link to="/addfaquestion">
                 <button className="bg-blue-600 hidden sm:block hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300">
                   Add FAQ Question
                 </button>

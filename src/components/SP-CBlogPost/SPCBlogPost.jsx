@@ -115,50 +115,49 @@ console.log(blogPosts)
               </thead>
 
               <tbody className="divide-y divide-gray-700">
-                {filteredPosts.map((post, index) => (
-                  <motion.tr
-                    key={post._id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-100">{index + 1}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-100">{post.postTitle}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                    <td className="px-6 py-4 whitespace-nowrap">
-  <img
-    src={`http://localhost:8080/${post.postThumbnailImage}`} // Remove the extra path part
-    alt={post.postTitle}
-    className="h-10 w-10 rounded-full"
-  />
-</td>
+  {filteredPosts.map((post, index) => (
+    <motion.tr
+      key={post._id}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="text-sm font-medium text-gray-100">{index + 1}</div>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="text-sm text-gray-100">{post.postTitle}</div>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <img
+          src={`http://localhost:8080/${post.postThumbnailImage}`}
+          alt={post.postTitle}
+          className="h-10 w-10 rounded-full"
+        />
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="text-sm text-gray-300">
+          {post.postCategory?.cityCategoryName || "Unknown"}
+        </div>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+        <button
+          className="text-indigo-400 hover:text-indigo-300 mr-2"
+          onClick={() => handleEdit(post._id)}
+        >
+          <Edit size={18} />
+        </button>
+        <button
+          className="text-red-400 hover:text-red-300"
+          onClick={() => handleDelete(post._id)}
+        >
+          <Trash size={18} />
+        </button>
+      </td>
+    </motion.tr>
+  ))}
+</tbody>
 
-</td>
-
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-300">{post.postCategory.cityCategoryName}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                      <button
-                        className="text-indigo-400 hover:text-indigo-300 mr-2"
-                        onClick={() => handleEdit(post._id)}
-                      >
-                        <Edit size={18} />
-                      </button>
-                      <button
-                        className="text-red-400 hover:text-red-300"
-                        onClick={() => handleDelete(post._id)}
-                      >
-                        <Trash size={18} />
-                      </button>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
             </table>
           </div>
         </>

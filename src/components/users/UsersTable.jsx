@@ -16,7 +16,6 @@ const UsersTable = () => {
     const fetchInstructors = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/instructors");
-
         console.log(response.data); // Log fetched users
         setUsers(response.data);
         setFilteredUsers(response.data);
@@ -31,9 +30,12 @@ const UsersTable = () => {
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
+
+    // Filter the users by both name and email, ensuring that they are not undefined
     const filtered = users.filter(
       (user) =>
-        user.name.toLowerCase().includes(term) || user.email.toLowerCase().includes(term)
+        (user.name && user.name.toLowerCase().includes(term)) ||
+        (user.email && user.email.toLowerCase().includes(term))
     );
     setFilteredUsers(filtered);
   };
@@ -110,7 +112,6 @@ const UsersTable = () => {
 
               <tbody className="divide-y divide-gray-700">
                 {filteredUsers.map((user, index) => (
-              
                   <motion.tr
                     key={user._id}
                     initial={{ opacity: 0 }}
@@ -121,21 +122,17 @@ const UsersTable = () => {
                       <div className="text-sm text-gray-300">{index + 1}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-blue-500 flex items-center justify-center text-white font-semibold">
-  <img
-    src={
-      user.photo
-      
-        ? `http://localhost:8080/${user.photo.replace(/\\/g, '/')}`
-        : 'path/to/default-image.jpg' // Use a fallback image here
-    }
-    
-    alt="User profile"
-    className="h-full w-full object-cover rounded-full"
-  />
-     
-</div>
-
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-blue-500 flex items-center justify-center text-white font-semibold">
+                        <img
+                          src={
+                            user.photo
+                              ? `http://localhost:8080/${user.photo.replace(/\\/g, '/')}`
+                              : 'path/to/default-image.jpg' // Use a fallback image here
+                          }
+                          alt="User profile"
+                          className="h-full w-full object-cover rounded-full"
+                        />
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-100">

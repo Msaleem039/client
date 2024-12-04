@@ -3,9 +3,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/common/Header";
 import { useEffect, useState } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; 
 const AddCourse = () => {
   const [categories, setCategories] = useState([]);
   const [instructors, setInstructors] = useState([]);
@@ -91,7 +90,7 @@ const AddCourse = () => {
   };
   return (
     <div className="w-full overflow-y-auto">
-      <Header />
+      <Header/>
       <div className="p-6 bg-gray-800 rounded-lg shadow-md max-w-lg mx-auto mt-10">
         <h2 className="text-3xl font-semibold text-gray-100 mb-6 text-center">
           Add Course
@@ -222,23 +221,19 @@ const AddCourse = () => {
           </div>
           {/* Course Description (CKEditor) */}
           <div className="mb-4">
-            <label className="block text-gray-400 mb-2">
-              Course Description*
-            </label>
-            <CKEditor
-              editor={ClassicEditor}
-              data={courseDescription}
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                setCourseDescription(data);
-              }}
-            />
-            {errors.courseDescription && (
-              <span className="text-red-500">
-                Course Description is required
-              </span>
-            )}
-          </div>
+  <label className="block text-gray-300 mb-2">Course Description*</label>
+  <ReactQuill
+    value={courseDescription}
+    onChange={setCourseDescription}
+    theme="snow"
+    className="bg-white text-black rounded-md"
+  />
+  {errors.courseDescription && (
+    <span className="text-red-500">Course Description is required</span>
+  )}
+</div>
+
+
 
           <div className="mb-4">
             <label className="block text-gray-400 mb-2">Instructor*</label>
@@ -361,18 +356,18 @@ const AddCourse = () => {
 
           {/* Status */}
           <div className="mb-4">
-            <label className="block text-gray-400 mb-2">Status*</label>
-            <select
-              {...register("Status", { required: true })}
-              className="w-full px-4 py-2 bg-gray-700 text-white rounded-md"
-            >
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-            {errors.status && (
-              <span className="text-red-500">Status is required</span>
-            )}
-          </div>
+  <label className="block text-gray-400 mb-2">Status*</label>
+  <select
+    {...register("Status", { required: true })}
+    className="w-full px-4 py-2 bg-gray-700 text-white rounded-md"
+  >
+    <option value="Active">Active</option>
+    <option value="Inactive">Inactive</option>
+  </select>
+  {errors.Status && (
+    <span className="text-red-500">Status is required</span>
+  )}
+</div>
 
           {/* Is View on Web? */}
           <div className="mb-4">

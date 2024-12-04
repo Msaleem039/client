@@ -30,7 +30,7 @@ const AddFaqquestion = () => {
     };
 
     try {
-      await axios.post("http://localhost:8080/api/faqs", formData);
+      await axios.post("http://localhost:8080/api/faquestion", formData);
       navigate("/faqs"); // Redirect after successful submission
     } catch (error) {
       console.error("Error adding FAQ question:", error);
@@ -38,7 +38,7 @@ const AddFaqquestion = () => {
   };
 
   return (
-    <div className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700 overflow-auto">
+    <div className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700 overflow-auto w-full">
       <h2 className="text-2xl font-semibold text-gray-100 mb-5">Add FAQ Question</h2>
       <form onSubmit={handleSubmit}>
         <div className="space-y-4">

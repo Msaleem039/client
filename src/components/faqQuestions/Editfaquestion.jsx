@@ -21,7 +21,7 @@ const Editfaquestion = () => {
       await axios.put(`http://localhost:8080/api/faquestion/${id}`, {
         categoryName,
       });
-      navigate("/faqs"); // Redirect after update
+      navigate("/faquestion"); // Redirect after update
     } catch (error) {
       console.error("Error updating FAQ category:", error);
     }

@@ -11,6 +11,7 @@ const Blog = () => {
   const location = useLocation();
   const navigate = useNavigate();
 const {id}= useParams();
+console.log(filteredBlogs)
   // Fetch blog posts from the API
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -143,7 +144,7 @@ const handleDelete = async (id) => {
                         <div className="text-sm text-gray-300">{blog.status}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-300">{new Date(blog.publishedDate).toLocaleDateString()}</div>
+                        <div className="text-sm text-gray-300">{new Date(blog.updatedAt).toLocaleDateString()}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                         <button

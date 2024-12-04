@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const EditGallery = () => {
+const EditFreetrail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   
@@ -97,4 +97,4 @@ const EditGallery = () => {
   );
 };
 
-export default EditGallery;
+export default EditFreetrail;

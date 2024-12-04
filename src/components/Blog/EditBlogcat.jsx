@@ -9,6 +9,9 @@ const EditBlogcat = () => {
   const [category, setCategory] = useState({
     categoryName: '',
     status: 'Active', // Default status
+    metaDescription:"",
+    metaTitle:" ",
+
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true); // Loading state
@@ -59,9 +62,9 @@ const EditBlogcat = () => {
   }
 
   return (
-    <div className='w-full'>
+    <div className='w-full h-full overflow-auto'>
         <Header/>
-      <div className="w-full max-w-md mx-auto bg-gray-800 bg-opacity-50 rounded-lg p-6 shadow-md overflow-auto mt-10">
+      <div className=" w-[60%] mx-auto bg-gray-800 bg-opacity-50 rounded-lg p-6 shadow-md overflow-auto mt-10">
 
       <h2 className="text-2xl font-semibold text-gray-100 mb-4">Edit Blog Category</h2>
       {error && <div className="text-red-500 mb-2">{error}</div>}
@@ -73,6 +76,44 @@ const EditBlogcat = () => {
             id="categoryName"
             name="categoryName"
             value={category.categoryName}
+            onChange={handleChange}
+            className="bg-gray-700 text-white placeholder-gray-400 rounded-lg p-2 w-full"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-400 mb-1" htmlFor="categoryName">Meta metaDescription</label>
+          <input
+            type="text"
+            id="categoryName"
+            name="metaDescription"
+            value={category.metaDescription}
+            onChange={handleChange}
+            className="bg-gray-700 text-white placeholder-gray-400 rounded-lg p-2 w-full"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-400 mb-1" htmlFor="categoryName">Meta Title</label>
+          <input
+            type="text"
+            id="categoryName"
+            name="metaTitle"
+            value={category.metaTitle}
+            onChange={handleChange}
+            className="bg-gray-700 text-white placeholder-gray-400 rounded-lg p-2 w-full"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-400 mb-1" htmlFor="categoryName">Meta shortDescription
+</label>
+          <input
+            type="text"
+            id="categoryName"
+            name="shortDescription"
+            value={category.shortDescription
+            }
             onChange={handleChange}
             className="bg-gray-700 text-white placeholder-gray-400 rounded-lg p-2 w-full"
             required

@@ -2,16 +2,15 @@ import { UserCheck, UserPlus, UsersIcon, UserX } from "lucide-react";
 import { motion } from "framer-motion";
 import Header from "../common/Header";
 import StatCard from "../common/StatCard";
-import TableGallery from '../Gallery/TableGallery'
-
+import Freetrail from "./EventCategory";
+import EventCategory from "./EventCategory";
 const userStats = {
 	totalUsers: 152845,
 	newUsersToday: 243,
 	activeUsers: 98520,
 	churnRate: "2.4%",
 };
-
-const MainGallery = () => {
+const MainEventcat = () => {
 	return (
 		<div className='flex-1 overflow-auto relative z-10'>
 			<Header title='Users' />
@@ -40,7 +39,7 @@ const MainGallery = () => {
 					<StatCard name='Churn Rate' icon={UserX} value={userStats.churnRate} color='#EF4444' />
 				</motion.div>
 
-				<TableGallery/>
+			   <EventCategory/>
 
 				{/* USER CHARTS */}
 				{/* <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8'>
@@ -52,4 +51,4 @@ const MainGallery = () => {
 		</div>
 	);
 };
-export default MainGallery;
+export default MainEventcat;

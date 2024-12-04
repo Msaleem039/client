@@ -6,32 +6,49 @@ import Header from "../common/Header";
 const EditEFlyer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
-  // State to hold eFlyer details
+
+  // State for eFlyer details
   const [eFlyer, setEFlyer] = useState({
-    category: "", // Hold category name (or relevant field)
-    course: "",   // Hold course name (or relevant field)
+    category: "", // ObjectId of the selected category
+    course: "",   // ObjectId of the selected course
     flyerFile: "",
     status: "Active", // Default status
   });
 
-  // Fetch eFlyer data when the component mounts
+  // State for available categories and courses
+  const [categories, setCategories] = useState([]);
+  const [courses, setCourses] = useState([]);
+
+  // Fetch eFlyer, categories, and courses on component mount
   useEffect(() => {
-    const fetchEFlyer = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/eflyer/${id}`);
-        console.log("Fetched eFlyer:", response.data); // Check if the data is being fetched correctly
+        // Fetch eFlyer details
+        const eflyerResponse = await axios.get(`http://localhost:8080/api/eflyer/${id}`);
+        const eflyerData = eflyerResponse.data;
+        
         setEFlyer({
-          category: response.data.category.Category_Name,
-          course: response.data.course.course_Name,
-          flyerFile: response.data.flyerFile,
-          status: response.data.status ? "Active" : "Inactive",
+          category: eflyerData.category._id, // Use ObjectId
+          course: eflyerData.course._id,     // Use ObjectId
+          flyerFile: eflyerData.flyerFile,
+          status: eflyerData.status ? "Active" : "Inactive",
         });
+
+        // Fetch all categories and courses
+        const [categoriesResponse, coursesResponse] = await Promise.all([
+          axios.get("http://localhost:8080/api/categories"),
+          axios.get("http://localhost:8080/api/courses"),
+        ]);
+
+        setCategories(categoriesResponse.data);
+        setCourses(coursesResponse.data);
+
       } catch (error) {
-        console.error("Error fetching eFlyer:", error);
+        console.error("Error fetching data:", error);
       }
     };
-    fetchEFlyer();
+
+    fetchData();
   }, [id]);
 
   // Handle form submission
@@ -39,16 +56,16 @@ const EditEFlyer = () => {
     e.preventDefault();
     try {
       const updatedEFlyer = {
-        category: eFlyer.category,
-        course: eFlyer.course,
+        category: eFlyer.category, // Send ObjectId
+        course: eFlyer.course,     // Send ObjectId
         flyerFile: eFlyer.flyerFile,
-        status: eFlyer.status === "Active" ? true : false,
+        status: eFlyer.status === "Active", // Convert status to boolean
       };
-      
+
       const response = await axios.put(`http://localhost:8080/api/eflyer/${id}`, updatedEFlyer, { withCredentials: true });
       console.log("Updated eFlyer Response:", response);
       alert("eFlyer updated successfully!");
-      navigate("/eflyers"); // Redirect to eFlyer list after successful update
+      navigate("/eflayer"); // Redirect after successful update
     } catch (error) {
       console.error("Error updating eFlyer:", error);
       alert("Failed to update eFlyer");
@@ -70,29 +87,46 @@ const EditEFlyer = () => {
       <div className="flex justify-center items-center my-5 bg-gray-900 overflow-auto">
         <div className="bg-gray-800 bg-opacity-80 backdrop-blur-md shadow-lg rounded-xl p-8 border border-gray-700 w-full max-w-lg">
           <h2 className="text-2xl font-semibold text-gray-100 mb-6">Edit eFlyer</h2>
-          <form onSubmit={handleSubmit} className="space-y-4 overflow-y-auto max-h-[500px]"> {/* Added scrollable area */}
+          <form onSubmit={handleSubmit} className="space-y-4 overflow-y-auto max-h-[500px]">
+            {/* Category Dropdown */}
             <div className="mb-4">
               <label className="block text-gray-300">Category</label>
-              <input
-                type="text"
+              <select
                 name="category"
                 value={eFlyer.category}
                 onChange={handleChange}
                 required
                 className="w-full p-3 rounded bg-gray-700 text-white border border-gray-600 focus:ring focus:ring-blue-500 focus:outline-none"
-              />
+              >
+                <option value="" disabled>Select Category</option>
+                {categories.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.Category_Name}
+                  </option>
+                ))}
+              </select>
             </div>
+
+            {/* Course Dropdown */}
             <div className="mb-4">
               <label className="block text-gray-300">Course</label>
-              <input
-                type="text"
+              <select
                 name="course"
                 value={eFlyer.course}
                 onChange={handleChange}
                 required
                 className="w-full p-3 rounded bg-gray-700 text-white border border-gray-600 focus:ring focus:ring-blue-500 focus:outline-none"
-              />
+              >
+                <option value="" disabled>Select Course</option>
+                {courses.map((course) => (
+                  <option key={course._id} value={course._id}>
+                    {course.course_Name}
+                  </option>
+                ))}
+              </select>
             </div>
+
+            {/* Flyer File */}
             <div className="mb-4">
               <label className="block text-gray-300">Flyer File URL</label>
               <input
@@ -104,6 +138,8 @@ const EditEFlyer = () => {
                 className="w-full p-3 rounded bg-gray-700 text-white border border-gray-600 focus:ring focus:ring-blue-500 focus:outline-none"
               />
             </div>
+
+            {/* Status */}
             <div className="mb-4">
               <label className="block text-gray-300">Status</label>
               <select
@@ -116,6 +152,8 @@ const EditEFlyer = () => {
                 <option value="Inactive">Inactive</option>
               </select>
             </div>
+
+            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 rounded-lg transition duration-200"

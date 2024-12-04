@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import { useState } from 'react';
 
 const AddCategory = () => {
@@ -83,7 +83,7 @@ const AddCategory = () => {
         </div>
 
         {/* Meta Description */}
-        <div className='mb-4'>
+        {/* <div className='mb-4'>
           <label className='block text-gray-400 mb-2'>Meta Description</label>
           <CKEditor
             editor={ClassicEditor}
@@ -115,7 +115,20 @@ const AddCategory = () => {
             style={{ height: '200px', backgroundColor: '#1f2937' }} // Set background color
           />
           {errors.meta_Description && <span className="text-red-500">{errors.meta_Description.message}</span>}
-        </div>
+        </div> */}
+        <div className="mb-4">
+  <label className="block text-gray-300 mb-2">Meta Description*</label>
+  <ReactQuill
+    value={metaDescription}
+    onChange={setMetaDescription} // Update state with ReactQuill data
+    theme="snow"
+    className="bg-white text-black rounded-md"
+  // Set height for the editor
+  />
+  {errors.meta_Description && (
+    <span className="text-red-500">{errors.meta_Description.message}</span>
+  )}
+</div>
 
         {/* In Sitemap */}
         <div className='mb-4'>
@@ -123,7 +136,7 @@ const AddCategory = () => {
           <div className='flex space-x-4'>
             <label className='text-gray-400'>
               <input
-                type='radio'
+                 type='checkbox'
                 value="Yes"
                 {...register("in_Sitemap", { required: "Please select an option" })}
                 className='mr-2'
@@ -132,7 +145,7 @@ const AddCategory = () => {
             </label>
             <label className='text-gray-400'>
               <input
-                type='radio'
+                type='checkbox'
                 value="No"
                 {...register("in_Sitemap", { required: "Please select an option" })}
                 className='mr-2'
@@ -149,7 +162,7 @@ const AddCategory = () => {
           <div className='flex space-x-4'>
             <label className='text-gray-400'>
               <input
-                type='radio'
+               type='checkbox'
                 value="Yes"
                 {...register("Index_Page_Option", { required: "Please select an option" })}
                 className='mr-2'
@@ -158,7 +171,7 @@ const AddCategory = () => {
             </label>
             <label className='text-gray-400'>
               <input
-                type='radio'
+              type='checkbox'
                 value="No"
                 {...register("Index_Page_Option", { required: "Please select an option" })}
                 className='mr-2'

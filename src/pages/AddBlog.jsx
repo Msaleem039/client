@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Header from "../components/common/Header";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; 
 
 const AddBlog = () => {
   const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm();
@@ -16,41 +16,54 @@ const AddBlog = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/blogcate');
-        console.log('Fetched Categories:', response.data); // Log fetched categories
         setCategories(response.data); // Assuming response.data is an array of categories
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
     };
-
     fetchCategories();
   }, []); // Empty dependency array means this runs once when the component mounts
+
+  // Handle file input change
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]; // Get the first selected file
+    setValue("postThumbImage", file); // Update form state
+  };
 
   // Handle form submission
   const onSubmit = async (data) => {
     try {
-      const requestData = {
-        postTitle: data.postTitle,
-        urlSlug: data.urlSlug,
-        postCategory: data.postCategory,
-        postThumbImage: data.postThumbImage,
-        shortDescription: data.shortDescription,
-        postDescription: data.postDescription,
-        isPublish: data.isPublish || false, // Default to false if not provided
-        featured: data.featured || false, // Default to false if not provided
-        metaTitle: data.metaTitle,
-        metaDescription: data.metaDescription,
-        inSitemap: data.inSitemap || false, // Default to false if not provided
-        pageIndex: data.pageIndex || false, // Default to false if not provided
-        customCanonicalUrl: data.customCanonicalUrl,
-      };
-      console.log(requestData);
-      const res = await axios.post('http://localhost:8080/api/blogpost', requestData);
+      // Check if a file is selected
+      if (!data.postThumbImage) {
+        console.error("No file selected for thumbnail image.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("postTitle", data.postTitle);
+      formData.append("urlSlug", data.urlSlug);
+      formData.append("postCategory", data.postCategory);
+      formData.append("postThumbImage", data.postThumbImage); // Add the file here
+      formData.append("shortDescription", data.shortDescription);
+      formData.append("postDescription", data.postDescription);
+      formData.append("isPublish", data.isPublish || false);
+      formData.append("featured", data.featured || false);
+      formData.append("metaTitle", data.metaTitle);
+      formData.append("metaDescription", data.metaDescription);
+      formData.append("inSitemap", data.inSitemap || false);
+      formData.append("pageIndex", data.pageIndex || false);
+      formData.append("customCanonicalUrl", data.customCanonicalUrl);
+
+      const res = await axios.post('http://localhost:8080/api/blogpost', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data' // Important for file upload
+        }
+      });
+
       if (res.status === 200) {
-        console.log('Blog added successfully', res.data);
-        navigate("/blogs"); // Navigate back to blogs after successful submission
+        navigate("/blogs"); // Redirect on success
       } else {
-        console.error('Error adding blog', res.data);
+        console.error('Error adding blog:', res.data);
       }
     } catch (error) {
       console.error('Error:', error.response ? error.response.data : error.message);
@@ -109,6 +122,7 @@ const AddBlog = () => {
               type='file'
               {...register("postThumbImage", { required: true })}
               accept="image/*"
+              onChange={handleFileChange} // Update file when selected
               className='w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
             {errors.postThumbImage && <span className="text-red-500">Post Thumbnail Image is required</span>}
@@ -126,20 +140,17 @@ const AddBlog = () => {
           </div>
 
           {/* Post Description */}
-          <div className='mb-4'>
-            <label className='block text-gray-400 mb-2'>Post Description*</label>
-            <CKEditor
-              editor={ClassicEditor}
-              data={watch('postDescription') || ''} // Setting the initial value
-              onReady={(editor) => {
-                console.log('Editor is ready to use!', editor);
-              }}
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                setValue('postDescription', data); // Update form state
-              }}
+          <div className="mb-4">
+            <label className="block text-gray-400 mb-2">Post Description*</label>
+            <ReactQuill
+              value={watch('postDescription') || ''} // Setting the initial value
+              onChange={(content) => setValue('postDescription', content)} // Update form state with ReactQuill data
+              theme="snow"
+              className="text-gray-700 bg-white rounded-md"
             />
-            {errors.postDescription && <span className="text-red-500">Post Description is required</span>}
+            {errors.postDescription && (
+              <span className="text-red-500">Post Description is required</span>
+            )}
           </div>
 
           {/* Publish Status */}
@@ -183,40 +194,20 @@ const AddBlog = () => {
             />
           </div>
 
-          {/* In Sitemap */}
-          <div className='mb-4'>
-            <label className='block text-gray-400 mb-2'>In Sitemap</label>
-            <input
-              type="checkbox"
-              {...register("inSitemap")}
-              className='mr-2'
-            />
-          </div>
-
-          {/* Page Index */}
-          <div className='mb-4'>
-            <label className='block text-gray-400 mb-2'>Page Index</label>
-            <input
-              type="checkbox"
-              {...register("pageIndex")}
-              className='mr-2'
-            />
-          </div>
-
           {/* Custom Canonical URL */}
           <div className='mb-4'>
-            <label className='block text-gray-400 mb-2'>Custom Canonical URL</label>
+            <label className='block text-gray-400 mb-2'>Canonical URL</label>
             <input
               type='text'
               {...register("customCanonicalUrl")}
               className='w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
-              placeholder="Enter custom canonical URL"
+              placeholder="Enter canonical URL"
             />
           </div>
 
           <button
-            type='submit'
-            className='w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 focus:outline-none'
+            type="submit"
+            className="w-full px-4 py-2 bg-blue-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Add Blog
           </button>

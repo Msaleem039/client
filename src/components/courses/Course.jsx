@@ -9,10 +9,10 @@ const Courses = () => {
   const [courses, setCourses] = useState([]); // Store the original courses from the API
   const [filteredCourses, setFilteredCourses] = useState([]); // Filtered courses displayed in the table
   const location = useLocation();
+console.log(courses)
   // const [editCategory, setEditCategory] = useState(null);
   const navigate = useNavigate();
   // Fetch courses from the API
-  console.log(courses)
   const fetchCourses = async () => {
     try {
       const response = await axios.get("http://localhost:8080/api/courses");
@@ -113,7 +113,6 @@ const Courses = () => {
               </Link>
             </div>
           </div>
-
           <div className='overflow-x-auto'>
             <table className='min-w-full divide-y divide-gray-700'>
               <thead>
@@ -183,15 +182,17 @@ const Courses = () => {
         <td className='px-6 py-4 whitespace-nowrap'>
           <div className='text-sm text-gray-300'>{course.Admission_Fee || "N/A"}</div>
         </td>
-        <td className='px-6 py-4 whitespace-nowrap'>
-          <span
-            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-              course.status === 'Active' ? 'bg-green-800 text-green-100' : 'bg-red-800 text-red-100'
-            }`}
-          >
-            {course.status || "N/A"}
-          </span>
-        </td>
+<td className='px-6 py-4 whitespace-nowrap'>
+  <span
+    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+      course.Status ? 'bg-green-800 text-green-100' : 'bg-red-800 text-red-100'
+    }`}
+  >
+    {course.Status ? 'Inactive' : 'Active'}
+  </span>
+</td>
+
+
         <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-300'>
           <button
             className='text-indigo-400 hover:text-indigo-300 mr-2'

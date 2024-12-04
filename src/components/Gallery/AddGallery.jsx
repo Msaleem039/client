@@ -3,122 +3,75 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const AddGallery = () => {
-  const [categoryName, setCategoryName] = useState("");
-  const [urlSlug, setUrlSlug] = useState("");
-  const [categoryDescription, setCategoryDescription] = useState("");
-  const [categoryImage, setCategoryImage] = useState(null);
-  const [metaTitle, setMetaTitle] = useState("");
-  const [metaDescription, setMetaDescription] = useState("");
-  const [inSitemap, setInSitemap] = useState(false);
-  const [indexPage, setIndexPage] = useState(false);
-  const [customCanonicalUrl, setCustomCanonicalUrl] = useState("");
+  const [galleryTitle, setGalleryTitle] = useState("");
+  const [coverImage, setCoverImage] = useState(null);
+  const [isViewable, setIsViewable] = useState(false);
+  const [note, setNote] = useState("");
   const navigate = useNavigate();
 
   const handleFileChange = (e) => {
-    setCategoryImage(e.target.files[0]);
+    setCoverImage(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("categoryName", categoryName);
-    formData.append("urlSlug", urlSlug);
-    formData.append("categoryDescription", categoryDescription);
-    formData.append("categoryImage", categoryImage);
-    formData.append("metaTitle", metaTitle);
-    formData.append("metaDescription", metaDescription);
-    formData.append("inSitemap", inSitemap);
-    formData.append("indexPage", indexPage);
-    formData.append("customCanonicalUrl", customCanonicalUrl);
+    formData.append("galleryTitle", galleryTitle);
+    formData.append("coverImage", coverImage);
+    formData.append("isViewable", isViewable);
+    formData.append("note", note);
 
     try {
-      await axios.post("http://localhost:8080/api/faqcat", formData, {
+      await axios.post("http://localhost:8080/api/gallery", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      navigate("/faqs"); // Redirect after successful submission
+      navigate("/gallery"); // Redirect to Gallery Table after adding a gallery item
     } catch (error) {
-      console.error("Error adding FAQ category:", error);
+      console.error("Error adding gallery item:", error);
     }
   };
 
   return (
-    <div className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700 overflow-auto">
-      <h2 className="text-2xl font-semibold text-gray-100 mb-5">Add FAQ Category</h2>
+    <div className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700 overflow-auto w-full">
+      <h2 className="text-2xl font-semibold text-gray-100 mb-5">Add Gallery</h2>
       <form onSubmit={handleSubmit}>
         <div className="space-y-4">
           <input
             type="text"
-            placeholder="Category Name"
+            placeholder="Gallery Title"
             className="w-full p-3 bg-gray-700 text-white placeholder-gray-400 rounded-lg"
-            value={categoryName}
-            onChange={(e) => setCategoryName(e.target.value)}
+            value={galleryTitle}
+            onChange={(e) => setGalleryTitle(e.target.value)}
             required
-          />
-          <input
-            type="text"
-            placeholder="URL Slug"
-            className="w-full p-3 bg-gray-700 text-white placeholder-gray-400 rounded-lg"
-            value={urlSlug}
-            onChange={(e) => setUrlSlug(e.target.value)}
-            required
-          />
-          <textarea
-            placeholder="Category Description"
-            className="w-full p-3 bg-gray-700 text-white placeholder-gray-400 rounded-lg"
-            value={categoryDescription}
-            onChange={(e) => setCategoryDescription(e.target.value)}
-            rows="4"
           />
           <input
             type="file"
             className="w-full p-3 bg-gray-700 text-white placeholder-gray-400 rounded-lg"
             onChange={handleFileChange}
-          />
-          <input
-            type="text"
-            placeholder="Meta Title"
-            className="w-full p-3 bg-gray-700 text-white placeholder-gray-400 rounded-lg"
-            value={metaTitle}
-            onChange={(e) => setMetaTitle(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Meta Description"
-            className="w-full p-3 bg-gray-700 text-white placeholder-gray-400 rounded-lg"
-            value={metaDescription}
-            onChange={(e) => setMetaDescription(e.target.value)}
+            required
           />
           <label className="flex items-center text-gray-300">
             <input
               type="checkbox"
-              checked={inSitemap}
-              onChange={(e) => setInSitemap(e.target.checked)}
+              checked={isViewable}
+              onChange={(e) => setIsViewable(e.target.checked)}
               className="mr-2"
             />
-            Include in Sitemap
+            Viewable
           </label>
-          <label className="flex items-center text-gray-300">
-            <input
-              type="checkbox"
-              checked={indexPage}
-              onChange={(e) => setIndexPage(e.target.checked)}
-              className="mr-2"
-            />
-            Index Page
-          </label>
-          <input
-            type="text"
-            placeholder="Custom Canonical URL"
+          <textarea
+            placeholder="Note"
             className="w-full p-3 bg-gray-700 text-white placeholder-gray-400 rounded-lg"
-            value={customCanonicalUrl}
-            onChange={(e) => setCustomCanonicalUrl(e.target.value)}
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            rows="4"
           />
           <button
             type="submit"
             className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg"
           >
-            Add Category
+            Add Gallery
           </button>
         </div>
       </form>
